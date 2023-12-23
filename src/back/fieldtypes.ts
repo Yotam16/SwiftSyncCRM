@@ -9,7 +9,7 @@ export type basic_stat_t = ["New" , "Interested", "Purchased", "Left", "incative
 export type custom_stat_t = [];
 export type field_t = "Name" | "Phone number" | "Date" | "FreeText" | "Checkbox";
 
-const createUNameSTR = (value: string): uname_t | undefined => {
+const testUNameSTR = (value: string): uname_t | undefined => {
   const regex = /^[a-zA-Z0-9_-]{5,16}$/;
 
   if (regex.test(value)) {
@@ -19,7 +19,7 @@ const createUNameSTR = (value: string): uname_t | undefined => {
   return undefined;
 };
 
-const createPassSTR = (value: string): uname_t | undefined => {
+const testPassSTR = (value: string): uname_t | undefined => {
     const regex = /{8,16}/;
   
     if (regex.test(value)) {
@@ -29,7 +29,7 @@ const createPassSTR = (value: string): uname_t | undefined => {
     return undefined;
   };
 
-  const createNameSTR = (value: string): name_t | undefined => {
+  const testNameSTR = (value: string): name_t | undefined => {
     const regex = /^[a-zA-Z]{2,16}$/;
   
     if (regex.test(value)) {
@@ -40,7 +40,7 @@ const createPassSTR = (value: string): uname_t | undefined => {
   };
 
 
-  const CreateEmail = (value: string): email_t | undefined => {
+  const testEmail = (value: string): email_t | undefined => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (regex.test(value)) {
@@ -51,7 +51,7 @@ const createPassSTR = (value: string): uname_t | undefined => {
   };
 
 
-  const Createphone = (value: string): phone_t | undefined => {
+  const testPhone = (value: string): phone_t | undefined => {
     const regex = /^[0-9+]{5,13}/;
 
     if (regex.test(value)) {
