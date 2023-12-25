@@ -29,7 +29,6 @@ type user = {
 
 
 
-
 type customer = {
 
     cuid: number;
@@ -45,4 +44,5 @@ type customer = {
     timezone : Date;
     bday : Date;
 
+    free: string;
 }
