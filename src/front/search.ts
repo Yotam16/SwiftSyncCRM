@@ -1,38 +1,37 @@
-// Add any necessary imports here, such as axios for making HTTP requests
-// import axios from 'axios';
+import express from 'express';
+import * as path from 'path';
+import * as bodyParser from 'body-parser';
 
-function searchAll() {
-    // Replace the following with your actual server endpoint
-    const endpoint = '/searchAll';
-  
-    // Replace this object with the data you want to send to the server
-    const searchData = {
-      // Add your search parameters here
-      // For example, if you have additional filters or criteria
-      // parameter1: value1,
-      // parameter2: value2,
-    };
-  
-    // Use axios or any other method to make an HTTP request
-    // For example, using axios:
-    // axios.post(endpoint, searchData)
-    //   .then(response => {
-    //     // Handle the response from the server
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     // Handle errors
-    //     console.error(error);
-    //   });
-  
-    // For demonstration purposes, log a message
-    console.log(`Sending search request to ${endpoint} with data:`, searchData);
-  }
-  
-  // Attach the searchAll function to the "Search All" button
-  const searchAllButton = document.getElementById('searchAllButton');
-  
-  if (searchAllButton) {
-    searchAllButton.addEventListener('click', searchAll);
-  }
-  
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.post('/search', (req, res) => {
+  const field = req.body.field;
+  const value = req.body.value;
+
+  console.log(`Performing search for ${field} with value ${value}`);
+
+  // Add your search logic here
+
+  res.send('Search performed successfully'); // Send a response to the client
+});
+
+app.post('/searchAll', (req, res) => {
+  console.log('Showing all records');
+
+  // Add logic to search all records
+
+  res.send('All records shown successfully'); // Send a response to the client
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
