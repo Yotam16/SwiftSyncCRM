@@ -1,4 +1,4 @@
-import express from 'express';
+  import * as express from 'express';
 import * as path from 'path';
 import * as bodyParser from 'body-parser';
 
@@ -35,3 +35,6 @@ app.post('/searchAll', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+
