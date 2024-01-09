@@ -15,7 +15,8 @@
   
   "scripts": {
     "start": "ts-node src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "type": "module"
   }
   
   
