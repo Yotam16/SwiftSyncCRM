@@ -1,5 +1,5 @@
 type role_t = "user" | "moderator" | "admin" | "partner";
-type status_t = "lead" | "activeLead" | "customer" | "on hold" | "disbanded";
+type status_t = "lead" | "activeLead" | "customer" | "on hold" | "disbanded" | '';
 
 export interface User {
     id: string;
