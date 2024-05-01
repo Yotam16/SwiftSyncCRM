@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Lead } from '../src/models'
+import React, { useState, useEffect } from 'react';
+import { Lead } from '../src/models';
+import axios from 'axios';
+
 const App: React.FC = () => {
-
   const [customers, setCustomers] = useState<Lead[]>([]);
-
   const [formData, setFormData] = useState<Lead>({
     id: '',
     fname: '',
@@ -18,6 +18,19 @@ const App: React.FC = () => {
     updatedAt: new Date()
   });
 
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await axios.get('/api/leads');
+      setCustomers(response.data);
+    } catch (error) {
+      console.error('Error fetching customers:', error);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -26,42 +39,41 @@ const App: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleAddCustomer(formData);
-    setFormData({
-      id: '',
-      fname: '',
-      lname: '',
-      email: '',
-      phone: '',
-      address: '',
-      status: '',
-      source: '',
-      notes: '',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    });
+    try {
+      await axios.post('/api/leads', formData);
+      fetchCustomers(); // Refresh the list after adding a new customer
+      setFormData({
+        id: '',
+        fname: '',
+        lname: '',
+        email: '',
+        phone: '',
+        address: '',
+        status: '',
+        source: '',
+        notes: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    } catch (error) {
+      console.error('Error adding customer:', error);
+    }
   };
 
-  const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleEditCustomer(formData);
-  };
-
-  const handleAddCustomer = (customerData: Lead) => {
-    setCustomers(prevCustomers => [...prevCustomers, customerData]);
-  };
-
-  const handleEditCustomer = (editedCustomer: Lead) => {
-    setCustomers(prevCustomers =>
-      prevCustomers.map(customer => (customer.id === editedCustomer.id ? editedCustomer : customer))
-    );
+    try {
+      await axios.put(`/api/leads/${formData.id}`, formData);
+      fetchCustomers(); 
+    } catch (error) {
+      console.error('Error editing customer:', error);
+    }
   };
 
   return (
     <div>
-      {/* New Customer Form */}
       <div>
         <h2>New Customer</h2>
         <form onSubmit={handleSubmit}>
@@ -89,7 +101,6 @@ const App: React.FC = () => {
         </form>
       </div>
 
-      {/* Edit Customer Form */}
       <div>
         <h2>Edit Customer</h2>
         <form onSubmit={handleEditSubmit}>
@@ -115,6 +126,20 @@ const App: React.FC = () => {
           </div>
           <button type="submit">Save Changes</button>
         </form>
+      </div>
+
+      <div>
+        <h2>Customer List</h2>
+        <ul>
+          {customers.map(customer => (
+            <li key={customer.id}>
+              <span>Name: {customer.fname} {customer.lname}</span>
+              <span>Email: {customer.email}</span>
+              <span>Phone: {customer.phone}</span>
+              <span>Address: {customer.address}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

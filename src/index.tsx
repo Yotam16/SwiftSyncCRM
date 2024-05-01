@@ -1,8 +1,7 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
 
 const app = express();
-
 
 const leads = [
   {
@@ -43,7 +42,6 @@ const leads = [
   }
 ];
 
-
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/api/leads', (req, res) => {
@@ -64,8 +62,6 @@ app.get('/api/leads/:id', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
